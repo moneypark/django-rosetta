@@ -222,6 +222,8 @@ def home(request):
             if page > paginator.num_pages:
                 page = 1
             query_arg = '?page=%d' % page
+            if _request_request('query') and _request_request('query', '').strip():
+                query_arg += '&query=%s' % _request_request('query')
             return HttpResponseRedirect(reverse('rosetta-home') + iri_to_uri(query_arg))
 
         rosetta_messages = paginator.page(page).object_list
