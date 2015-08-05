@@ -81,6 +81,14 @@ def home(request):
         else:
             rosetta_i18n_pofile = storage.get('rosetta_i18n_pofile')
 
+        # When user clicked to search button.
+        if 'search' in request.POST and 'query' in request.POST:
+            query_arg = '?query=%s' % request.POST['query']
+            # We redirect user with new query to replace old one and pagination's get params if they were.
+            return HttpResponseRedirect(
+                reverse('rosetta-home') + iri_to_uri(query_arg)
+            )
+
         if 'filter' in request.GET:
             if request.GET.get('filter') in ('untranslated', 'translated', 'fuzzy', 'all'):
                 filter_ = request.GET.get('filter')
